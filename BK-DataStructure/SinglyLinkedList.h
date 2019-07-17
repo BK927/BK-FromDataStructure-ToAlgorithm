@@ -172,6 +172,18 @@ namespace bkDS
 	}
 
 	template<typename T>
+	bool SinglyLinkedList<T>::Next()
+	{
+		if (mCurrent == nullptr || mCurrent->next == nullptr)
+		{
+			return false;
+		}
+
+		mCurrent = mCurrent->next;
+		return true;
+	}
+
+	template<typename T>
 	void SinglyLinkedList<T>::PushBack(T& data)
 	{
 		if (mTail == nullptr)
