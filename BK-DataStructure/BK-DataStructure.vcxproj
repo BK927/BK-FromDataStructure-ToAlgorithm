@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="BaseContainer.h" />
     <ClInclude Include="Displayer.h" />
+    <ClInclude Include="FixedStack.h" />
+    <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@ namespace bkDS
 	{
 	public:
 		BaseContainer();
+		BaseContainer(unsigned int size);
 		bool IsEmpty() const;
 		unsigned int Size() const;
 

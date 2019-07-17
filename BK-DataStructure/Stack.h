@@ -3,12 +3,14 @@
 namespace bkDS
 {
 	template<typename T>
-	class Stack
+	class Stack : public BaseContainer
 	{
 	public:
 		void Push(const T& value);
 		T Pop();
 		T& Peek() const;
-		bool IsFull() const;
+
+	private:
+		T* m
 	};
 }

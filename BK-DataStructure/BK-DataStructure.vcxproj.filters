@@ -24,6 +24,12 @@
     <ClInclude Include="BaseContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FixedStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SinglyLinkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseContainer.cpp">
