@@ -6,7 +6,7 @@ namespace bkDS
 	{
 	}
 
-	BaseContainer::BaseContainer(unsigned int size) : mSize(size)
+	BaseContainer::BaseContainer(unsigned int capacity) : mSize(capacity)
 	{
 	}
 

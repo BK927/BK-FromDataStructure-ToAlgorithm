@@ -299,12 +299,11 @@ namespace bkDS
 			ListNode<T>* temp = cursor;
 			cursor = cursor->next;
 			delete temp;
-			mSize--;
 		}
+		mSize = 0;
 		mHead = nullptr;
 		mTail = nullptr;
 		mCurrent = nullptr;
-		assert(IsEmpty());
 	}
 
 }
