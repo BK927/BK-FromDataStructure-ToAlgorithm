@@ -58,8 +58,7 @@ namespace bkDS
 			return false;
 		}
 
-		mArray[mSize] = value;
-		mSize++;
+		mArray[mSize++] = value;
 		return true;
 	}
 
