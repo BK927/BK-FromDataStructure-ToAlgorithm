@@ -21,10 +21,13 @@
   <ItemGroup>
     <ClInclude Include="BaseContainer.h" />
     <ClInclude Include="Displayer.h" />
+    <ClInclude Include="FixedStack.h" />
+    <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseContainer.cpp" />
+    <ClCompile Include="Displayer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

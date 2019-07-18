@@ -6,6 +6,10 @@ namespace bkDS
 	{
 	}
 
+	BaseContainer::BaseContainer(unsigned int capacity) : mSize(capacity)
+	{
+	}
+
 	inline bool BaseContainer::IsEmpty() const
 	{
 		return mSize == 0 ? true : false;
