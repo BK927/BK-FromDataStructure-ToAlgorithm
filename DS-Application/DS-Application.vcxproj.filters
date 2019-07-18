@@ -15,24 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Stack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Displayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FixedStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SinglyLinkedList.h">
+    <ClInclude Include="StackApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseContainer.cpp">
+    <ClCompile Include="StackApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TestMain.cpp">

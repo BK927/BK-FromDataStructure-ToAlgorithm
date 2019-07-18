@@ -1,7 +1,10 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 
+#include "SinglyLinkedList.h"
 #include "Stack.h"
+#include "FixedStack.h"
 
 using namespace std;
 
@@ -11,6 +14,13 @@ namespace bkDS
 	class Displayer
 	{
 	public:
-		static void Display(const Stack<T>& stack) const;
+		void Display(const Stack<T>& stack) const;
 	};
+
+	template<typename T>
+	void Displayer<T>::Display(const Stack<T>& stack) const
+	{
+
+	}
+
 }

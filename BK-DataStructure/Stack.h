@@ -19,8 +19,6 @@ namespace bkDS
 		T& Peek() const;
 		bool IsEmpty() const;
 		unsigned int Size() const;
-
-		friend void Displayer::Display(const Stack<T>& stack) const;
 	};
 
 	template<typename T>

@@ -2,6 +2,7 @@
 #include <cassert>
 
 #include "BaseContainer.h"
+#include "Displayer.h"
 
 namespace bkDS
 {
