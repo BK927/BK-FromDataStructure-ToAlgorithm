@@ -2,8 +2,15 @@
 
 void algorithm::StackApplication::CheckMatching(const char* filename)
 {
-	cout << '[' << filename << ']' << "파일 괄호 오류 검사" << endl;
+	cout << '[' << filename << ']' << ": 파일 괄호 오류 검사" << endl;
 	ifstream ifs(filename);
+
+	if (!ifs.is_open())
+	{
+		cout << "파일을 여는데 실패했습니다." << endl;
+		return;
+	}
+
 	bkDS::Stack<char> stack;
 	unsigned int nLine = 0;
 	unsigned int nChar = 0;
@@ -200,10 +207,11 @@ void algorithm::StackApplication::CheckMatching(const char* filename)
 		}
 	}
 
+	cout << "오류 미검출" << endl << endl;
 	ifs.close();
 }
 
-inline void algorithm::StackApplication::CheckMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err)
+void algorithm::StackApplication::CheckMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err)
 {
 	switch (err)
 	{
@@ -223,5 +231,5 @@ inline void algorithm::StackApplication::CheckMatchingErrMsg(const unsigned int 
 		break;
 	}
 
-	cout << nLine << "번째 줄 " << nChar << "번째 글자에 오류 발생" << endl;
+	cout << nLine << "번째 줄 " << nChar << "번째 글자에 오류 발생" << endl << endl;
 }

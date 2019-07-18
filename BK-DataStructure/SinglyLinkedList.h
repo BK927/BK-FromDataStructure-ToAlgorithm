@@ -2,7 +2,6 @@
 #include <cassert>
 
 #include "BaseContainer.h"
-#include "Displayer.h"
 
 namespace bkDS
 {
@@ -21,7 +20,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	class SinglyLinkedList : BaseContainer
+	class SinglyLinkedList : public BaseContainer
 	{
 	public:
 		SinglyLinkedList();
@@ -71,7 +70,7 @@ namespace bkDS
 			PushBack(cursor->data);
 			cursor = cursor->next;
 		}
-		mCurrent == mHead;
+		mCurrent = mHead;
 
 		assert(mSize == rhs.mSize);
 	}
@@ -112,7 +111,7 @@ namespace bkDS
 		}
 
 		assert(mSize == rhs.mSize);
-		mCurrent == mHead;
+		mCurrent = mHead;
 
 		return *this;
 	}
@@ -189,7 +188,7 @@ namespace bkDS
 	{
 		if (mTail == nullptr)
 		{
-			assert(IsEmpty());
+			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
 			mTail = new ListNode<T>(data);
 			mHead = mTail;
@@ -210,7 +209,7 @@ namespace bkDS
 
 		if (mTail == nullptr)
 		{
-			assert(IsEmpty());
+			assert(BaseContainer::IsEmpty());
 			mTail = mHead;
 			mCurrent = mHead;
 		}
@@ -223,7 +222,7 @@ namespace bkDS
 	{
 		if (mHead == nullptr)
 		{
-			assert(IsEmpty());
+			assert(BaseContainer::IsEmpty());
 			assert(mTail == nullptr);
 			return;
 		}
@@ -256,7 +255,7 @@ namespace bkDS
 	{
 		if (mTail == nullptr)
 		{
-			assert(IsEmpty());
+			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
 			return;
 		}

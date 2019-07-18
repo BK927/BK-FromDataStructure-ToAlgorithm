@@ -17,7 +17,7 @@ namespace algorithm
 	private:
 		enum class eCheckMatchingError;
 
-		inline static void CheckMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err);
+		static void CheckMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err);
 
 		enum class eCheckMatchingError
 		{

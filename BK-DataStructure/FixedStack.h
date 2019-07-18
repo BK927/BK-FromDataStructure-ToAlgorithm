@@ -17,12 +17,12 @@ namespace bkDS
 
 		bool Push(const T& value);
 		T Pop();
-		T& Peek() const;
+		T& Peek();
 		bool IsFull() const;
 		size_t MaxSize() const;
 
 	private:
-		T mArray[capacity]
+		T mArray[capacity];
 	};
 
 	template<typename T, size_t capacity>
@@ -69,7 +69,7 @@ namespace bkDS
 	}
 
 	template<typename T, size_t capacity>
-	inline T& FixedStack<T, capacity>::Peek() const
+	inline T& FixedStack<T, capacity>::Peek()
 	{
 		return mArray[mSize - 1];
 	}

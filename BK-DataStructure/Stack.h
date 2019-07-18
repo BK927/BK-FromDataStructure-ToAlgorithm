@@ -1,5 +1,4 @@
 #pragma once
-#include "Displayer.h"
 #include "SinglyLinkedList.h"
 
 namespace bkDS
@@ -16,18 +15,18 @@ namespace bkDS
 
 		void Push(T& data);
 		void Pop();
-		T& Peek() const;
+		T& Peek();
 		bool IsEmpty() const;
 		unsigned int Size() const;
 	};
 
 	template<typename T>
-	inline Stack<T>::Stack() : SinglyLinkedList()
+	inline Stack<T>::Stack() : SinglyLinkedList<T>()
 	{
 	}
 
 	template<typename T>
-	inline Stack<T>::Stack(const Stack<T>& rhs) : SinglyLinkedList(rhs)
+	inline Stack<T>::Stack(const Stack<T>& rhs) : SinglyLinkedList<T>(rhs)
 	{
 	}
 
@@ -35,34 +34,36 @@ namespace bkDS
 	inline Stack<T>& Stack<T>::operator=(const Stack<T>& rhs)
 	{
 		SinglyLinkedList<T>::operator=(rhs);
+		return *this;
 	}
 
 	template<typename T>
 	inline void Stack<T>::Push(T& value)
 	{
-		AddFirst(value);
+		SinglyLinkedList<T>::AddFirst(value);
 	}
 
 	template<typename T>
 	inline void Stack<T>::Pop()
 	{
-		RemoveFirst();
+		SinglyLinkedList<T>::RemoveFirst();
 	}
 
 	template<typename T>
-	inline T& Stack<T>::Peek() const
+	inline T& Stack<T>::Peek()
 	{
-		return GetHead();
+		return SinglyLinkedList<T>::GetHead();
 	}
+
 	template<typename T>
 	inline bool Stack<T>::IsEmpty() const
 	{
-		return IsEmpty();
+		return BaseContainer::IsEmpty();
 	}
 
 	template<typename T>
 	inline unsigned int Stack<T>::Size() const
 	{
-		return Size();
+		return BaseContainer::Size();
 	}
 }

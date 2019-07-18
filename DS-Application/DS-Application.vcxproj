@@ -23,7 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StackApplication.cpp" />
-    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="TestMain.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

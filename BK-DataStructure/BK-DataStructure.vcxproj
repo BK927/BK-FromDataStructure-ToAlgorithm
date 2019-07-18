@@ -20,15 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseContainer.h" />
-    <ClInclude Include="Displayer.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="FixedStack.h" />
     <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseContainer.cpp" />
     <ClCompile Include="TestMain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
