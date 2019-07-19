@@ -6,20 +6,6 @@
 namespace bkDS
 {
 	template<typename T>
-	class ListNode
-	{
-	public:
-		ListNode<T>(T& data, ListNode<T>* next = nullptr);
-		T data;
-		ListNode<T>* next;
-	};
-
-	template<typename T>
-	inline ListNode<T>::ListNode(T& data, ListNode<T>* next) : data(data), next(next)
-	{
-	}
-
-	template<typename T>
 	class SinglyLinkedList : public BaseContainer
 	{
 	public:
@@ -37,15 +23,25 @@ namespace bkDS
 		T& GetCurrent();
 		bool Next();
 		void PushBack(T& data);
+		void PushBack(T&& data);
 		void AddFirst(T& data);
+		void AddFirst(T&& data);
 		void RemoveFirst();
 		void RemoveLast();
 		void Clear();
 
 	private:
-		ListNode<T>* mCurrent;
-		ListNode<T>* mHead;
-		ListNode<T>* mTail;
+		class Node
+		{
+		public:
+			Node(T& data, Node* next = nullptr);
+			T data;
+			Node* next;
+		};
+
+		Node* mCurrent;
+		Node* mHead;
+		Node* mTail;
 	};
 
 	template<typename T>
@@ -56,7 +52,7 @@ namespace bkDS
 	template<typename T>
 	SinglyLinkedList<T>::SinglyLinkedList(T& data)
 	{
-		mHead = new ListNode<T>(data);
+		mHead = new Node(data);
 		mTail = mHead;
 		mCurrent = mHead;
 	}
@@ -64,7 +60,7 @@ namespace bkDS
 	template<typename T>
 	SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& rhs) : mHead(nullptr), mTail(nullptr)
 	{
-		ListNode<T>* cursor = rhs.mHead;
+		Node* cursor = rhs.mHead;
 		while (!(cursor == nullptr))
 		{
 			PushBack(cursor->data);
@@ -93,8 +89,8 @@ namespace bkDS
 			assert(mSize == rhs.mSize);
 		}
 
-		ListNode<T>* thisCursor = mHead;
-		ListNode<T>* rhsCursor = rhs.mHead;
+		Node* thisCursor = mHead;
+		Node* rhsCursor = rhs.mHead;
 
 		for (unsigned int i = 0; i < mSize; i++)
 		{
@@ -121,7 +117,7 @@ namespace bkDS
 	{
 		SinglyLinkedList<T> sum = SinglyLinkedList<T>();
 
-		ListNode<T>* cursor = mHead;
+		Node* cursor = mHead;
 		while (!(cursor == nullptr))
 		{
 			sum.PushBack(cursor->data);
@@ -130,7 +126,7 @@ namespace bkDS
 
 		assert(sum.mSize == mSize);
 
-		ListNode<T>* cursor = rhs.mHead;
+		Node* cursor = rhs.mHead;
 		while (!(cursor == nullptr))
 		{
 			sum.PushBack(cursor->data);
@@ -145,7 +141,7 @@ namespace bkDS
 	template<typename T>
 	void SinglyLinkedList<T>::operator+=(const SinglyLinkedList<T>& rhs)
 	{
-		ListNode<T>* cursor = rhs.mHead;
+		Node* cursor = rhs.mHead;
 		while (!(cursor == nullptr))
 		{
 			PushBack(cursor->data);
@@ -190,13 +186,32 @@ namespace bkDS
 		{
 			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
-			mTail = new ListNode<T>(data);
+			mTail = new Node(data);
 			mHead = mTail;
 			mCurrent = mHead;
 		}
 		else
 		{
-			mTail->next = new ListNode<T>(data);
+			mTail->next = new Node(data);
+			mTail = mTail->next;
+		}
+		mSize++;
+	}
+
+	template<typename T>
+	inline void SinglyLinkedList<T>::PushBack(T&& data)
+	{
+		if (mTail == nullptr)
+		{
+			assert(BaseContainer::IsEmpty());
+			assert(mHead == nullptr);
+			mTail = new Node(data);
+			mHead = mTail;
+			mCurrent = mHead;
+		}
+		else
+		{
+			mTail->next = new Node(data);
 			mTail = mTail->next;
 		}
 		mSize++;
@@ -205,7 +220,22 @@ namespace bkDS
 	template<typename T>
 	void SinglyLinkedList<T>::AddFirst(T& data)
 	{
-		mHead = new ListNode<T>(data, mHead);
+		mHead = new Node(data, mHead);
+
+		if (mTail == nullptr)
+		{
+			assert(BaseContainer::IsEmpty());
+			mTail = mHead;
+			mCurrent = mHead;
+		}
+
+		mSize++;
+	}
+
+	template<typename T>
+	inline void SinglyLinkedList<T>::AddFirst(T&& data)
+	{
+		mHead = new Node(data, mHead);
 
 		if (mTail == nullptr)
 		{
@@ -240,7 +270,7 @@ namespace bkDS
 			return;
 		}
 
-		ListNode<T>* temp = mHead;
+		Node* temp = mHead;
 		mHead = mHead->next;
 		if (mCurrent == temp)
 		{
@@ -273,7 +303,7 @@ namespace bkDS
 			return;
 		}
 
-		ListNode<T>* cursor = mHead;
+		Node* cursor = mHead;
 		while (!(cursor->next == mTail))
 		{
 			cursor = cursor->next;
@@ -293,10 +323,10 @@ namespace bkDS
 	template<typename T>
 	void SinglyLinkedList<T>::Clear()
 	{
-		ListNode<T>* cursor = mHead;
+		Node* cursor = mHead;
 		while (!(cursor == nullptr))
 		{
-			ListNode<T>* temp = cursor;
+			Node* temp = cursor;
 			cursor = cursor->next;
 			delete temp;
 		}
@@ -304,6 +334,11 @@ namespace bkDS
 		mHead = nullptr;
 		mTail = nullptr;
 		mCurrent = nullptr;
+	}
+
+	template<typename T>
+	inline SinglyLinkedList<T>::Node::Node(T& data, Node* next) : data(data), next(next)
+	{
 	}
 
 }
