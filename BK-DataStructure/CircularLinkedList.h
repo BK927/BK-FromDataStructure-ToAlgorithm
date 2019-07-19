@@ -6,17 +6,17 @@
 namespace bkDS
 {
 	template<typename T>
-	class SinglyLinkedList : public BaseContainer
+	class CircularLinkedList : public BaseContainer
 	{
 	public:
-		SinglyLinkedList();
-		SinglyLinkedList(T& data);
-		SinglyLinkedList(const SinglyLinkedList<T>& rhs);
-		~SinglyLinkedList();
+		CircularLinkedList();
+		CircularLinkedList(T& data);
+		CircularLinkedList(const CircularLinkedList<T>& rhs);
+		~CircularLinkedList();
 
-		SinglyLinkedList<T>& operator=(const SinglyLinkedList<T>& rhs);
-		SinglyLinkedList<T> operator+(const SinglyLinkedList<T>& rhs);
-		void operator+=(const SinglyLinkedList<T>& rhs);
+		CircularLinkedList<T>& operator=(const CircularLinkedList<T>& rhs);
+		CircularLinkedList<T> operator+(const CircularLinkedList<T>& rhs);
+		void operator+=(const CircularLinkedList<T>& rhs);
 
 		T& GetHead();
 		T& GetTail();
@@ -33,7 +33,7 @@ namespace bkDS
 	private:
 		struct Node
 		{
-			Node(T& data, Node* next = nullptr);
+			Node(T& data, Node* next);
 			T data;
 			Node* next;
 		};
@@ -44,12 +44,12 @@ namespace bkDS
 	};
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList() : mHead(nullptr), mTail(nullptr), mCurrent(nullptr)
+	CircularLinkedList<T>::CircularLinkedList() : mHead(nullptr), mTail(nullptr), mCurrent(nullptr)
 	{
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList(T& data)
+	CircularLinkedList<T>::CircularLinkedList(T& data)
 	{
 		mHead = new Node(data);
 		mTail = mHead;
@@ -57,10 +57,10 @@ namespace bkDS
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& rhs) : mHead(nullptr), mTail(nullptr)
+	CircularLinkedList<T>::CircularLinkedList(const CircularLinkedList<T>& rhs) : mHead(nullptr), mTail(nullptr)
 	{
 		Node* cursor = rhs.mHead;
-		while (!(cursor == nullptr))
+		for (unsigned int i = 0; i < rhs.mSize; i++)
 		{
 			PushBack(cursor->data);
 			cursor = cursor->next;
@@ -71,13 +71,13 @@ namespace bkDS
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::~SinglyLinkedList()
+	CircularLinkedList<T>::~CircularLinkedList()
 	{
 		Clear();
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
+	CircularLinkedList<T>& CircularLinkedList<T>::operator=(const CircularLinkedList<T>& rhs)
 	{
 		if (mSize > rhs.mSize)
 		{
@@ -97,9 +97,8 @@ namespace bkDS
 			thisCursor = rhsCursor->next;
 			rhsCursor = rhsCursor->next;
 		}
-		assert(thisCursor == nullptr);
 
-		while (!(rhsCursor == nullptr))
+		for (unsigned int i = mSize; i < rhs.mSize; i++)
 		{
 			PushBack(rhsCursor->data);
 			rhsCursor = rhsCursor->next;
@@ -112,12 +111,12 @@ namespace bkDS
 	}
 
 	template<typename T>
-	SinglyLinkedList<T> SinglyLinkedList<T>::operator+(const SinglyLinkedList<T>& rhs)
+	CircularLinkedList<T> CircularLinkedList<T>::operator+(const CircularLinkedList<T>& rhs)
 	{
-		SinglyLinkedList<T> sum = SinglyLinkedList<T>();
+		CircularLinkedList<T> sum = CircularLinkedList<T>();
 
 		Node* cursor = mHead;
-		while (!(cursor == nullptr))
+		for (unsigned int i = 0; i < mSize; i++)
 		{
 			sum.PushBack(cursor->data);
 			cursor = cursor->next;
@@ -126,7 +125,7 @@ namespace bkDS
 		assert(sum.mSize == mSize);
 
 		Node* cursor = rhs.mHead;
-		while (!(cursor == nullptr))
+		for (unsigned int i = 0; i < rhs.mSize; i++)
 		{
 			sum.PushBack(cursor->data);
 			cursor = cursor->next;
@@ -138,10 +137,10 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::operator+=(const SinglyLinkedList<T>& rhs)
+	void CircularLinkedList<T>::operator+=(const CircularLinkedList<T>& rhs)
 	{
 		Node* cursor = rhs.mHead;
-		while (!(cursor == nullptr))
+		for (unsigned int i = 0; i < rhs.mSize; i++)
 		{
 			PushBack(cursor->data);
 			cursor = cursor->next;
@@ -149,28 +148,30 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetHead()
+	inline T& CircularLinkedList<T>::GetHead()
 	{
 		return mHead->data;
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetTail()
+	inline T& CircularLinkedList<T>::GetTail()
 	{
 		return mTail->data;
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetCurrent()
+	inline T& CircularLinkedList<T>::GetCurrent()
 	{
 		return mCurrent->data;
 	}
 
 	template<typename T>
-	bool SinglyLinkedList<T>::Next()
+	bool CircularLinkedList<T>::Next()
 	{
-		if (mCurrent == nullptr || mCurrent->next == nullptr)
+		if (mCurrent == nullptr)
 		{
+			assert(mHead == nullptr);
+			assert(mTail == nullptr);
 			return false;
 		}
 
@@ -179,45 +180,45 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::PushBack(T& data)
+	void CircularLinkedList<T>::PushBack(T& data)
 	{
 		if (mTail == nullptr)
 		{
 			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
-			mTail = new Node(data);
+			mTail = new Node(data, mHead);
 			mHead = mTail;
 			mCurrent = mHead;
 		}
 		else
 		{
-			mTail->next = new Node(data);
+			mTail->next = new Node(data, mHead);
 			mTail = mTail->next;
 		}
 		mSize++;
 	}
 
 	template<typename T>
-	inline void SinglyLinkedList<T>::PushBack(T&& data)
+	inline void CircularLinkedList<T>::PushBack(T&& data)
 	{
 		if (mTail == nullptr)
 		{
 			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
-			mTail = new Node(data);
+			mTail = new Node(data, mHead);
 			mHead = mTail;
 			mCurrent = mHead;
 		}
 		else
 		{
-			mTail->next = new Node(data);
+			mTail->next = new Node(data, mHead);
 			mTail = mTail->next;
 		}
 		mSize++;
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::AddFirst(T& data)
+	void CircularLinkedList<T>::AddFirst(T& data)
 	{
 		mHead = new Node(data, mHead);
 
@@ -227,12 +228,16 @@ namespace bkDS
 			mTail = mHead;
 			mCurrent = mHead;
 		}
+		else
+		{
+			mTail->next = mHead;
+		}
 
 		mSize++;
 	}
 
 	template<typename T>
-	inline void SinglyLinkedList<T>::AddFirst(T&& data)
+	inline void CircularLinkedList<T>::AddFirst(T&& data)
 	{
 		mHead = new Node(data, mHead);
 
@@ -242,12 +247,16 @@ namespace bkDS
 			mTail = mHead;
 			mCurrent = mHead;
 		}
+		else
+		{
+			mTail->next = mHead;
+		}
 
 		mSize++;
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::RemoveFirst()
+	void CircularLinkedList<T>::RemoveFirst()
 	{
 		if (mHead == nullptr)
 		{
@@ -271,6 +280,7 @@ namespace bkDS
 
 		Node* temp = mHead;
 		mHead = mHead->next;
+		mTail->next = mHead;
 		if (mCurrent == temp)
 		{
 			mCurrent = mHead;
@@ -280,7 +290,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::RemoveLast()
+	void CircularLinkedList<T>::RemoveLast()
 	{
 		if (mTail == nullptr)
 		{
@@ -314,21 +324,23 @@ namespace bkDS
 		}
 
 		delete mTail;
-		cursor->next == nullptr;
+		cursor->next == mHead;
 		mTail = cursor;
 		mSize--;
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::Clear()
+	void CircularLinkedList<T>::Clear()
 	{
 		Node* cursor = mHead;
-		while (!(cursor == nullptr))
+
+		for (unsigned int i = 0; i < mSize; i++)
 		{
 			Node* temp = cursor;
 			cursor = cursor->next;
 			delete temp;
 		}
+
 		mSize = 0;
 		mHead = nullptr;
 		mTail = nullptr;
@@ -336,7 +348,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline SinglyLinkedList<T>::Node::Node(T& data, Node* next) : data(data), next(next)
+	inline CircularLinkedList<T>::Node::Node(T& data, Node* next) : data(data), next(next)
 	{
 	}
 
