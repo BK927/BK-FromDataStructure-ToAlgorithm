@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BK-DataStructure", "BK-DataStructure\BK-DataStructure.vcxproj", "{FB9D7097-3FC3-4398-B80A-3A27274FAFF0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DS-Application", "DS-Application\DS-Application.vcxproj", "{D61A384E-3B74-4F78-A396-F1FF3828BF52}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BK-Algorithm", "BK-Algorithm\BK-Algorithm.vcxproj", "{D61A384E-3B74-4F78-A396-F1FF3828BF52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
