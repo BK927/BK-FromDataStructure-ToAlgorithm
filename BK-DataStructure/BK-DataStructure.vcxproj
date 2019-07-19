@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseContainer.h" />
+    <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="FixedStack.h" />
     <ClInclude Include="SinglyLinkedList.h" />
     <ClInclude Include="Stack.h" />
