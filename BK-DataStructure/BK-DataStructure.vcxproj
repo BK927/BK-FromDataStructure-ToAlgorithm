@@ -22,6 +22,7 @@
     <ClInclude Include="BaseContainer.h" />
     <ClInclude Include="CircularLinkedList.h" />
     <ClInclude Include="CircularQueue.h" />
+    <ClInclude Include="LinkedDeque.h" />
     <ClInclude Include="DoublyLinkedList.h" />
     <ClInclude Include="FixedStack.h" />
     <ClInclude Include="LinkedQueue.h" />

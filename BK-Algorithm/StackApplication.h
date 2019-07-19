@@ -4,6 +4,8 @@
 #include <fstream>
 
 #include "Stack.h"
+#include "Location2D.h"
+#include "MazeDisplayer.h"
 
 using namespace std;
 
@@ -25,24 +27,10 @@ namespace algorithm
 			Missing_Bracket
 		};
 
-		class Location2D
-		{
-		public:
-			Location2D(int row = 0, int col = 0);
-			bool operator==(const Location2D& p) const;
-			bool IsNeighbor(const Location2D& p) const;
-
-			int row;
-			int col;
-		};
-
 		static void checkMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err);
 
 		template<typename unsigned int HEIGHT, unsigned int WIDTH>
 		static bool isValidLoc(const int row, const int col, const char maze[][WIDTH]);
-
-		template<typename unsigned int HEIGHT, unsigned int WIDTH>
-		static void printMap(const char maze[][WIDTH], const Location2D currentLoc);
 	};
 
 	template<typename unsigned int HEIGHT, unsigned int WIDTH>
@@ -75,7 +63,8 @@ namespace algorithm
 			Location2D currentLoc = stack.Peek();
 			stack.Pop();
 
-			cout << '(' << currentLoc.row << ", " << currentLoc.col << ") ";
+			MazeDisplayer::PrintMap<HEIGHT, WIDTH>(maze, currentLoc);
+			cout << '(' << currentLoc.row << ", " << currentLoc.col << ") " << endl << endl;
 
 			if (maze[currentLoc.row][currentLoc.col] == 'x')
 			{
@@ -123,26 +112,6 @@ namespace algorithm
 		else
 		{
 			return maze[row][col] == '0' || maze[row][col] == 'x';
-		}
-	}
-
-	template<typename unsigned int HEIGHT, unsigned int WIDTH>
-	inline void StackApplication::printMap(const char maze[][WIDTH], const StackApplication::Location2D currentLoc)
-	{
-		for (unsigned int i = 0; i < HEIGHT; i++)
-		{
-			for (unsigned int j = 0; j < WIDTH; j++)
-			{
-				if (i == currentLoc.row && j == currentLoc.col)
-				{
-					cout << 'C' << ' ';
-				}
-				else
-				{
-					cout << maze[i][j] << ' ';
-				}
-			}
-			cout << endl;
 		}
 	}
 }

@@ -181,6 +181,18 @@ namespace bkDS
 	}
 
 	template<typename T>
+	inline bool DoublyLinkedList<T>::Previous()
+	{
+		if (mCurrent == nullptr || mCurrent->prev == nullptr)
+		{
+			return false;
+		}
+
+		mCurrent = mCurrent->prev;
+		return true;
+	}
+
+	template<typename T>
 	void DoublyLinkedList<T>::PushBack(T& data)
 	{
 		if (mTail == nullptr)
