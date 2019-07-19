@@ -32,6 +32,7 @@
     <ProjectGuid>{D61A384E-3B74-4F78-A396-F1FF3828BF52}</ProjectGuid>
     <RootNamespace>DSApplication</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>BK-Algorithm</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

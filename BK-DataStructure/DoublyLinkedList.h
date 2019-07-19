@@ -6,22 +6,23 @@
 namespace bkDS
 {
 	template<typename T>
-	class SinglyLinkedList : public BaseContainer
+	class DoublyLinkedList : public BaseContainer
 	{
 	public:
-		SinglyLinkedList();
-		SinglyLinkedList(T& data);
-		SinglyLinkedList(const SinglyLinkedList<T>& rhs);
-		~SinglyLinkedList();
+		DoublyLinkedList();
+		DoublyLinkedList(T& data);
+		DoublyLinkedList(const DoublyLinkedList<T>& rhs);
+		~DoublyLinkedList();
 
-		SinglyLinkedList<T>& operator=(const SinglyLinkedList<T>& rhs);
-		SinglyLinkedList<T> operator+(const SinglyLinkedList<T>& rhs);
-		void operator+=(const SinglyLinkedList<T>& rhs);
+		DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& rhs);
+		DoublyLinkedList<T> operator+(const DoublyLinkedList<T>& rhs);
+		void operator+=(const DoublyLinkedList<T>& rhs);
 
 		T& GetHead();
 		T& GetTail();
 		T& GetCurrent();
 		bool Next();
+		bool Previous();
 		void PushBack(T& data);
 		void PushBack(T&& data);
 		void AddFirst(T& data);
@@ -33,8 +34,9 @@ namespace bkDS
 	private:
 		struct Node
 		{
-			Node(T& data, Node* next = nullptr);
+			Node(T& data, Node* prev, Node* next = nullptr);
 			T data;
+			Node* prev
 			Node* next;
 		};
 
@@ -44,20 +46,20 @@ namespace bkDS
 	};
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList() : mHead(nullptr), mTail(nullptr), mCurrent(nullptr)
+	DoublyLinkedList<T>::DoublyLinkedList() : mHead(nullptr), mTail(nullptr), mCurrent(nullptr)
 	{
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList(T& data)
+	DoublyLinkedList<T>::DoublyLinkedList(T& data)
 	{
-		mHead = new Node(data);
+		mHead = new Node(data, nullptr);
 		mTail = mHead;
 		mCurrent = mHead;
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& rhs) : mHead(nullptr), mTail(nullptr)
+	DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& rhs) : mHead(nullptr), mTail(nullptr)
 	{
 		Node* cursor = rhs.mHead;
 		while (!(cursor == nullptr))
@@ -71,13 +73,13 @@ namespace bkDS
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>::~SinglyLinkedList()
+	DoublyLinkedList<T>::~DoublyLinkedList()
 	{
 		Clear();
 	}
 
 	template<typename T>
-	SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& rhs)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& rhs)
 	{
 		if (mSize > rhs.mSize)
 		{
@@ -112,9 +114,9 @@ namespace bkDS
 	}
 
 	template<typename T>
-	SinglyLinkedList<T> SinglyLinkedList<T>::operator+(const SinglyLinkedList<T>& rhs)
+	DoublyLinkedList<T> DoublyLinkedList<T>::operator+(const DoublyLinkedList<T>& rhs)
 	{
-		SinglyLinkedList<T> sum = SinglyLinkedList<T>();
+		DoublyLinkedList<T> sum = DoublyLinkedList<T>();
 
 		Node* cursor = mHead;
 		while (!(cursor == nullptr))
@@ -138,7 +140,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::operator+=(const SinglyLinkedList<T>& rhs)
+	void DoublyLinkedList<T>::operator+=(const DoublyLinkedList<T>& rhs)
 	{
 		Node* cursor = rhs.mHead;
 		while (!(cursor == nullptr))
@@ -149,25 +151,25 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetHead()
+	inline T& DoublyLinkedList<T>::GetHead()
 	{
 		return mHead->data;
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetTail()
+	inline T& DoublyLinkedList<T>::GetTail()
 	{
 		return mTail->data;
 	}
 
 	template<typename T>
-	inline T& SinglyLinkedList<T>::GetCurrent()
+	inline T& DoublyLinkedList<T>::GetCurrent()
 	{
 		return mCurrent->data;
 	}
 
 	template<typename T>
-	bool SinglyLinkedList<T>::Next()
+	bool DoublyLinkedList<T>::Next()
 	{
 		if (mCurrent == nullptr || mCurrent->next == nullptr)
 		{
@@ -179,47 +181,47 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::PushBack(T& data)
+	void DoublyLinkedList<T>::PushBack(T& data)
 	{
 		if (mTail == nullptr)
 		{
 			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
-			mTail = new Node(data);
+			mTail = new Node(data, nullptr);
 			mHead = mTail;
 			mCurrent = mHead;
 		}
 		else
 		{
-			mTail->next = new Node(data);
+			mTail->next = new Node(data, mTail);
 			mTail = mTail->next;
 		}
 		mSize++;
 	}
 
 	template<typename T>
-	inline void SinglyLinkedList<T>::PushBack(T&& data)
+	inline void DoublyLinkedList<T>::PushBack(T&& data)
 	{
 		if (mTail == nullptr)
 		{
 			assert(BaseContainer::IsEmpty());
 			assert(mHead == nullptr);
-			mTail = new Node(data);
+			mTail = new Node(data, nullptr);
 			mHead = mTail;
 			mCurrent = mHead;
 		}
 		else
 		{
-			mTail->next = new Node(data);
+			mTail->next = new Node(data, mTail);
 			mTail = mTail->next;
 		}
 		mSize++;
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::AddFirst(T& data)
+	void DoublyLinkedList<T>::AddFirst(T& data)
 	{
-		mHead = new Node(data, mHead);
+		mHead = new Node(data, nullptr, mHead);
 
 		if (mTail == nullptr)
 		{
@@ -232,9 +234,9 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline void SinglyLinkedList<T>::AddFirst(T&& data)
+	inline void DoublyLinkedList<T>::AddFirst(T&& data)
 	{
-		mHead = new Node(data, mHead);
+		mHead = new Node(data, nullptr, mHead);
 
 		if (mTail == nullptr)
 		{
@@ -247,7 +249,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::RemoveFirst()
+	void DoublyLinkedList<T>::RemoveFirst()
 	{
 		if (mHead == nullptr)
 		{
@@ -271,6 +273,7 @@ namespace bkDS
 
 		Node* temp = mHead;
 		mHead = mHead->next;
+		mHead->prev = nullptr;
 		if (mCurrent == temp)
 		{
 			mCurrent = mHead;
@@ -280,7 +283,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::RemoveLast()
+	void DoublyLinkedList<T>::RemoveLast()
 	{
 		if (mTail == nullptr)
 		{
@@ -302,25 +305,15 @@ namespace bkDS
 			return;
 		}
 
-		Node* cursor = mHead;
-		while (!(cursor->next == mTail))
-		{
-			cursor = cursor->next;
-		}
-
-		if (mCurrent == mTail)
-		{
-			mCurrent = cursor;
-		}
-
-		delete mTail;
-		cursor->next == nullptr;
-		mTail = cursor;
+		Node* temp = mTail;
+		mTail = mTail->prev;
+		mTail->next = nullptr;
+		delete temp;
 		mSize--;
 	}
 
 	template<typename T>
-	void SinglyLinkedList<T>::Clear()
+	void DoublyLinkedList<T>::Clear()
 	{
 		Node* cursor = mHead;
 		while (!(cursor == nullptr))
@@ -336,7 +329,7 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline SinglyLinkedList<T>::Node::Node(T& data, Node* next) : data(data), next(next)
+	inline DoublyLinkedList<T>::Node::Node(T& data, Node* prev, Node* next) : data(data), next(next), prev(prev)
 	{
 	}
 
