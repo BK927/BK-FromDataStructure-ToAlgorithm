@@ -1,92 +1,26 @@
 #include "StackApplication.h"
 
-void algorithm::StackApplication::CheckMatching(const char* filename)
+namespace algorithm
 {
-	cout << '[' << filename << ']' << ": 파일 괄호 오류 검사" << endl;
-	ifstream ifs(filename);
-
-	if (!ifs.is_open())
+	void StackApplication::CheckMatching(const char* filename)
 	{
-		cout << "파일을 여는데 실패했습니다." << endl;
-		return;
-	}
+		cout << '[' << filename << ']' << ": 파일 괄호 오류 검사" << endl;
+		ifstream ifs(filename);
 
-	bkDS::Stack<char> stack;
-	unsigned int nLine = 0;
-	unsigned int nChar = 0;
-
-	while (!ifs.eof())
-	{
-		char c = ifs.get();
-		//new line check
-		if (c == '\n')
+		if (!ifs.is_open())
 		{
-			nLine++;
-			continue;
-		}
-		else
-		{
-			nChar++;
+			cout << "파일을 여는데 실패했습니다." << endl;
+			return;
 		}
 
-		//single quotation marks check
-		if (c == '\'')
+		bkDS::Stack<char> stack;
+		unsigned int nLine = 0;
+		unsigned int nChar = 0;
+
+		while (!ifs.eof())
 		{
-			c = ifs.get();
-			while (!(c == '\''))
-			{
-				if (ifs.eof())
-				{
-					CheckMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Single_Quotation_Mark);
-					ifs.close();
-					return;
-				}
-
-				if (c == '\n')
-				{
-					nLine++;
-				}
-				else
-				{
-					nChar++;
-				}
-				c = ifs.get();
-			}
-			nChar++;
-			continue;
-		}
-
-		//double quotation marks check
-		if (c == '\"')
-		{
-			c = ifs.get();
-			while (!(c == '\"'))
-			{
-				if (ifs.eof())
-				{
-					CheckMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Double_Quotation_Mark);
-					ifs.close();
-					return;
-				}
-
-				if (c == '\n')
-				{
-					nLine++;
-				}
-				else
-				{
-					nChar++;
-				}
-				c = ifs.get();
-			}
-			nChar++;
-			continue;
-		}
-
-		//Comment
-		if (c == '/')
-		{
-			c = ifs.get();
+			char c = ifs.get();
+			//new line check
 			if (c == '\n')
 			{
 				nLine++;
@@ -97,33 +31,77 @@ void algorithm::StackApplication::CheckMatching(const char* filename)
 				nChar++;
 			}
 
-			if (c == '/')
+			//single quotation marks check
+			if (c == '\'')
 			{
-				while (!(c == '\n'))
+				c = ifs.get();
+				while (!(c == '\''))
 				{
-					c = ifs.get();
 					if (ifs.eof())
 					{
+						checkMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Single_Quotation_Mark);
 						ifs.close();
 						return;
 					}
-					nChar++;
+
+					if (c == '\n')
+					{
+						nLine++;
+					}
+					else
+					{
+						nChar++;
+					}
+					c = ifs.get();
 				}
+				nChar++;
 				continue;
 			}
 
-			if (c == '*')
+			//double quotation marks check
+			if (c == '\"')
 			{
-				while (true)
+				c = ifs.get();
+				while (!(c == '\"'))
 				{
-					c = ifs.get();
 					if (ifs.eof())
 					{
+						checkMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Double_Quotation_Mark);
 						ifs.close();
 						return;
 					}
+
+					if (c == '\n')
+					{
+						nLine++;
+					}
+					else
+					{
+						nChar++;
+					}
+					c = ifs.get();
+				}
+				nChar++;
+				continue;
+			}
+
+			//Comment
+			if (c == '/')
+			{
+				c = ifs.get();
+				if (c == '\n')
+				{
+					nLine++;
+					continue;
+				}
+				else
+				{
 					nChar++;
-					if (c == '*')
+				}
+
+				if (c == '/')
+				{
+					while (!(c == '\n'))
 					{
 						c = ifs.get();
 						if (ifs.eof())
@@ -132,104 +110,146 @@ void algorithm::StackApplication::CheckMatching(const char* filename)
 							return;
 						}
 						nChar++;
-						if (c == '/')
+					}
+					continue;
+				}
+
+				if (c == '*')
+				{
+					while (true)
+					{
+						c = ifs.get();
+						if (ifs.eof())
 						{
-							break;
+							ifs.close();
+							return;
+						}
+						nChar++;
+						if (c == '*')
+						{
+							c = ifs.get();
+							if (ifs.eof())
+							{
+								ifs.close();
+								return;
+							}
+							nChar++;
+							if (c == '/')
+							{
+								break;
+							}
 						}
 					}
+					continue;
 				}
-				continue;
+			}
+
+			//bracket check
+			switch (c)
+			{
+			case '[':
+				stack.Push(c);
+				break;
+
+			case '{':
+				stack.Push(c);
+				break;
+
+			case '(':
+				stack.Push(c);
+				break;
+
+			default:
+				break;
+			}
+
+			switch (c)
+			{
+			case ']':
+				if (stack.IsEmpty() || !(stack.Peek() == '['))
+				{
+					checkMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
+					ifs.close();
+					return;
+				}
+				else
+				{
+					stack.Pop();
+				}
+				break;
+
+			case '}':
+				if (stack.IsEmpty() || !(stack.Peek() == '{'))
+				{
+					checkMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
+					ifs.close();
+					return;
+				}
+				else
+				{
+					stack.Pop();
+				}
+				break;
+
+			case ')':
+				if (stack.IsEmpty() || !(stack.Peek() == '('))
+				{
+					checkMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
+					ifs.close();
+					return;
+				}
+				else
+				{
+					stack.Pop();
+				}
+				break;
+
+			default:
+				break;
 			}
 		}
-		
-		//bracket check
-		switch (c)
-		{
-		case '[':
-			stack.Push(c);
-			break;
 
-		case '{':
-			stack.Push(c);
-			break;
-
-		case '(':
-			stack.Push(c);
-			break;
-
-		default:
-			break;
-		}
-
-		switch (c)
-		{
-		case ']':
-			if (stack.IsEmpty() || !(stack.Peek() == '['))
-			{
-				CheckMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
-				ifs.close();
-				return;
-			}
-			else
-			{
-				stack.Pop();
-			}
-			break;
-
-		case '}':
-			if (stack.IsEmpty() || !(stack.Peek() == '{'))
-			{
-				CheckMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
-				ifs.close();
-				return;
-			}
-			else
-			{
-				stack.Pop();
-			}
-			break;
-
-		case ')':
-			if (stack.IsEmpty() || !(stack.Peek() == '('))
-			{
-				CheckMatchingErrMsg(nLine, nChar, eCheckMatchingError::Missing_Bracket);
-				ifs.close();
-				return;
-			}
-			else
-			{
-				stack.Pop();
-			}
-			break;
-
-		default:
-			break;
-		}
+		cout << "오류 미검출" << endl << endl;
+		ifs.close();
 	}
 
-	cout << "오류 미검출" << endl << endl;
-	ifs.close();
-}
 
-void algorithm::StackApplication::CheckMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err)
-{
-	switch (err)
+
+	void StackApplication::checkMatchingErrMsg(const unsigned int nLine, const unsigned int nChar, const eCheckMatchingError err)
 	{
-	case eCheckMatchingError::Missing_Bracket:
-		cout << "괄호 불일치 발생." << endl;
-		break;
+		switch (err)
+		{
+		case eCheckMatchingError::Missing_Bracket:
+			cout << "괄호 불일치 발생." << endl;
+			break;
 
-	case eCheckMatchingError::Missing_Single_Quotation_Mark:
-		cout << "작은 따옴표를 찾지 못했습니다." << endl;
-		break;
+		case eCheckMatchingError::Missing_Single_Quotation_Mark:
+			cout << "작은 따옴표를 찾지 못했습니다." << endl;
+			break;
 
-	case eCheckMatchingError::Missing_Double_Quotation_Mark:
-		cout << "큰 따옴표를 찾지 못했습니다." << endl;
-		break;
+		case eCheckMatchingError::Missing_Double_Quotation_Mark:
+			cout << "큰 따옴표를 찾지 못했습니다." << endl;
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
+
+		cout << nLine << "번째 줄 " << nChar << "번째 글자에 오류 발생" << endl << endl;
 	}
 
-	cout << nLine << "번째 줄 " << nChar << "번째 글자에 오류 발생" << endl << endl;
+	StackApplication::Location2D::Location2D(int row, int col) : row(row), col(col)
+	{
+	}
+
+	bool StackApplication::Location2D::operator==(const Location2D& p) const
+	{
+		return row == p.row && col == p.col;
+	}
+
+	bool StackApplication::Location2D::IsNeighbor(const Location2D& p) const
+	{
+		return ((row == p.row && (col == p.col - 1 || col == p.col + 1)) || (col == p.col && (row == p.row - 1 || row == p.row + 1)));
+	}
 }
+
