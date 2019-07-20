@@ -6,6 +6,9 @@ namespace bkDS
 	{
 	public:
 		BaseContainer();
+
+		void operator=(const BaseContainer& rhs);
+
 		bool IsEmpty() const;
 		unsigned int Size() const;
 
@@ -15,6 +18,11 @@ namespace bkDS
 
 	inline BaseContainer::BaseContainer() : mSize(0)
 	{
+	}
+
+	inline void BaseContainer::operator=(const BaseContainer& rhs)
+	{
+		mSize = rhs.mSize;
 	}
 
 	inline bool BaseContainer::IsEmpty() const

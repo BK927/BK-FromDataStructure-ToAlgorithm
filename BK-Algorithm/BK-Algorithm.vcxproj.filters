@@ -7,6 +7,9 @@
     <ClCompile Include="TestMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Location2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -18,6 +21,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StackApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Location2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DequeApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MazeManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueueApplication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

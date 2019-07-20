@@ -36,7 +36,7 @@ namespace bkDS
 		{
 			Node(T& data, Node* prev, Node* next = nullptr);
 			T data;
-			Node* prev
+			Node* prev;
 			Node* next;
 		};
 
@@ -177,6 +177,18 @@ namespace bkDS
 		}
 
 		mCurrent = mCurrent->next;
+		return true;
+	}
+
+	template<typename T>
+	inline bool DoublyLinkedList<T>::Previous()
+	{
+		if (mCurrent == nullptr || mCurrent->prev == nullptr)
+		{
+			return false;
+		}
+
+		mCurrent = mCurrent->prev;
 		return true;
 	}
 

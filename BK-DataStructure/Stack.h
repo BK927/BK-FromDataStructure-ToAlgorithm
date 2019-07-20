@@ -14,6 +14,7 @@ namespace bkDS
 		Stack<T>& operator=(const Stack<T>& rhs);
 
 		void Push(T& data);
+		void Push(T&& data);
 		void Pop();
 		T& Peek();
 		bool IsEmpty() const;
@@ -38,9 +39,15 @@ namespace bkDS
 	}
 
 	template<typename T>
-	inline void Stack<T>::Push(T& value)
+	inline void Stack<T>::Push(T& data)
 	{
-		SinglyLinkedList<T>::AddFirst(value);
+		SinglyLinkedList<T>::AddFirst(data);
+	}
+
+	template<typename T>
+	inline void Stack<T>::Push(T&& data)
+	{
+		SinglyLinkedList<T>::AddFirst(data);
 	}
 
 	template<typename T>
