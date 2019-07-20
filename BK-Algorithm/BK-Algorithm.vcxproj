@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DequeApplication.h" />
     <ClInclude Include="Location2D.h" />
-    <ClInclude Include="MazeDisplayer.h" />
+    <ClInclude Include="MazeManager.h" />
+    <ClInclude Include="QueueApplication.h" />
     <ClInclude Include="StackApplication.h" />
   </ItemGroup>
   <ItemGroup>

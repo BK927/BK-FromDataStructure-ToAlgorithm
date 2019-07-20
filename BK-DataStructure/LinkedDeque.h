@@ -24,6 +24,8 @@ namespace bkDS
 		void PopFront();
 		void PopBack();
 		void Clear();
+		bool IsEmpty() const;
+		unsigned int Size() const;
 	};
 
 	template<typename T>
@@ -40,7 +42,7 @@ namespace bkDS
 	inline LinkedDeque<T>& LinkedDeque<T>::operator=(const LinkedDeque<T>& rhs)
 	{
 		DoublyLinkedList<T>::operator=(rhs);
-		return *this
+		return *this;
 	}
 
 	template<typename T>
@@ -95,5 +97,17 @@ namespace bkDS
 	inline void LinkedDeque<T>::Clear()
 	{
 		DoublyLinkedList<T>::Clear();
+	}
+
+	template<typename T>
+	inline bool LinkedDeque<T>::IsEmpty() const
+	{
+		return BaseContainer::IsEmpty();
+	}
+
+	template<typename T>
+	inline unsigned int LinkedDeque<T>::Size() const
+	{
+		return BaseContainer::Size();
 	}
 }

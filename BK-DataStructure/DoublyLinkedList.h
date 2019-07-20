@@ -36,7 +36,7 @@ namespace bkDS
 		{
 			Node(T& data, Node* prev, Node* next = nullptr);
 			T data;
-			Node* prev
+			Node* prev;
 			Node* next;
 		};
 

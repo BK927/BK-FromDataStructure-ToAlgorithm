@@ -22,6 +22,8 @@ namespace bkDS
 		void Enqueue(T&& data);
 		bool Dequeue();
 		T& Peek();
+		bool IsEmpty() const;
+		unsigned int Size() const;
 	};
 
 	template<typename T>
@@ -81,5 +83,15 @@ namespace bkDS
 	inline T& LinkedQueue<T>::Peek()
 	{
 		return SinglyLinkedList<T>::GetHead();
+	}
+	template<typename T>
+	inline bool LinkedQueue<T>::IsEmpty() const
+	{
+		return BaseContainer::IsEmpty();
+	}
+	template<typename T>
+	inline unsigned int LinkedQueue<T>::Size() const
+	{
+		return BaseContainer::Size();
 	}
 }
