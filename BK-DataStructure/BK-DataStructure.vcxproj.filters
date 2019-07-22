@@ -42,6 +42,12 @@
     <ClInclude Include="LinkedDeque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BinaryTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestMain.cpp">
