@@ -42,10 +42,10 @@
     <ClInclude Include="LinkedDeque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryTree.h">
+    <ClInclude Include="BinaryNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryNode.h">
+    <ClInclude Include="RecursiveBSTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

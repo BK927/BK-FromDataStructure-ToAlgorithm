@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="BaseContainer.h" />
     <ClInclude Include="BinaryNode.h" />
-    <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="RecursiveBSTree.h" />
     <ClInclude Include="CircularLinkedList.h" />
     <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="LinkedDeque.h" />
