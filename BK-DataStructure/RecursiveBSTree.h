@@ -35,7 +35,6 @@ namespace bkDS
 		unsigned int Level(T& data) const;
 		unsigned int Level(T&& data) const;
 		unsigned int PathLength() const;
-		bool 
 
 	private:
 		node::BinaryNode<T>* copyRecursive(node::BinaryNode<T>* srcParent, node::BinaryNode<T>* destNode);
